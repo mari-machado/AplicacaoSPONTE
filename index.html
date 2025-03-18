@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <title>Aplicação SPONTE</title>
+</head>
+
+<body>
+
+  <div class="overlay" id="overlay">
+    <div class="message-box">
+      <p>O processo de tratamento foi iniciado! Aguarde...</p>
+    </div>
+  </div>
+  <div class="progress" id="progress">
+    <div class="message-box">
+      <p>Importação em andamento</p>
+      <progress class="progress-bar" id="progress-bar" value="0" max="100"></progress>
+      <p id="progress-log">Enviando...</p>
+      <p id="progress-text">xxx</p>
+    </div>
+  </div>
+  <main>
+    <h1>Aplicação SPONTE</h1>
+    <p>Leia a documentação <a href="./README.html">aqui</a></p>
+
+    <form class="form-planilha">
+      <label for="planilhaFile">Escolha a planilha: </label>
+      <input id="planilhaFile" type="file" class="custom-file-upload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, .xlsx">
+      <input type="button" class="btn" onclick="enviarPlanilha()" value="Enviar" />
+    </form>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

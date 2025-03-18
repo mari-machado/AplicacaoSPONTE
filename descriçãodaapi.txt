@@ -1,0 +1,184 @@
+InsertPlano - relação parametro -> tabela
+
+===PARÂMETROS===
+PrimeiroVencimento✔ = Data de vencimento original
+NumeroParcelas✔ = 
+ValorParcelas✔ =
+FormaCobrancaID 👀✔ = 
+CategoriaID 👀✔ = 
+AlunoID 👀✔ = 
+ClienteID 👀✔ =
+TipoPlano ✔ =
+
+===PARÂMETROS OPCIONAIS===
+ContratoID
+ContratoAulaLivreID
+BolsaID
+Observacao
+ContaID
+
+===RETORNOS===
+RetornoOperacao
+Parcelas
+ContaReceberID
+
+
+
+OBSERVAÇÃO: tem ID duplicado, tem que informar o sponte depois
+
+!!!
+=== Forma de cobrança - ID ===
+-22: Fatura Educbank
+-21: Fatura Sponte Pay
+-20: Pix Sponte Pay
+-19: Boleto Sponte Pay
+-18: Recorrência Sponte Pay
+-17: Boleto Automatizado
+-12: Boletos VINDI
+-11: PayPal
+-10: Crédito Recorrente
+-9: Cobrança Bancária (Envio por E-mail)
+-8: PagSeguro
+-7: Débito Automático
+-6: Cartão de Débito
+-5: Cartão de Crédito
+-4: Cobrança Bancária
+-3: Cheque Pré-Datado
+-2: Cheque
+-1: Dinheiro
+1: Transferência Bancária
+2: Doação
+3: Via Pix
+4: Via ClassApp
+5: Via Isaac
+
+=== Categoria - ID ===
+53: Estorno de Parcelas
+7: Misto
+5: Transferência
+3: Troco
+1: Devolução de Cheque
+54: (Migração)
+190: 1ª PARC. ANUIDADE
+533: PÓS MÉDIO ENFERMAGEM
+537: PÓS MÉDIO INFORMÁTICA
+541: MENSALIDADE EDUCAÇÃO INFANTIL
+542: MENSALIDADE ENSINO FUNDAMENTAL I
+543: MENSALIDADE ENSINO FUNDAMENTAL II
+573: MENSALIDADE 3º ANO TEC. ADMINISTRAÇÃO
+574: MENSALIDADE 1º ANO ENSINO MÉDIO
+575: MENSALIDADE 2º ANO TEC. ENFERMAGEM
+576: MENSALIDADE 2º ANO TEC. INFORMÁTICA
+577: MENSALIDADE 3º ANO TEC. INFORMÁTICA
+578: MENSALIDADE 3º ANO TEC. ENFERMAGEM
+609: DEPENDÊNCIA-01
+610: DEPENDÊNCIA-02
+611: DEPENDÊNCIA-03
+622: MENSALIDADE 2º ANO TEC. ADMINISTRAÇÃO
+625: PÓS MÉDIO ADMINISTRAÇÃO
+588: 2ª Via de Histórico Escolar
+589: 2ª Via de Carteirinha
+591: Certificado Conclusão de Curso
+595: Declaração Escolar
+596: Agenda Escolar
+597: Mudança de curso
+605: Pasta Ed. Infantil
+606: Material Ed. Infantil
+671: Material Fund. I
+645: Renegociação externa
+646: Renegociação interna
+81: LIVROS ED. INFANTIL
+85: LIVROS ENS. MÉDIO
+86: LIVROS FUND. II
+88: LIVROS FUND. I
+170: UNIFORME
+522: MENSALIDADE ESCOLAR
+515: Formatura 1º ano Fund. I
+607: Formatura 9° Ano
+618: Formatura Ensino Médio Técnico
+714: Convite avulso formatura 3º ano Ens. Médio
+698: Chaveiro dia dos Pais
+732: Caneca zero grau
+416: Livro Educação Infantil Maternal l
+417: Livro Educação Infantil Maternal ll
+418: Livro Educação Infantil PRÉ I
+419: Livro Educação Infantil PRÉ II
+420: Livro 1º ano Ensino Médio
+421: Livro 2º ano Ensino Médio
+422: Livro 3º ano Ensino Médio
+407: Livro Fund. II 6º ano
+409: Livro Fund. II 8º ano
+410: Livro Fund. II 9º ano
+408: Livro Fund. II 7º ano
+411: Livro Fund. I 1º ano
+412: Livro Fund. I 2º ano
+413: Livro Fund. I 3º ano
+414: Livro Fund. I 4º ano
+415: Livro Fund. I 5º ano
+280: Short saia
+303: Calça legging
+314: Uniforme Futebol
+325: Maiô
+336: Sunga
+347: Calça de moletom
+358: Casaco de moletom
+388: Casaco tactel
+399: Short helanca
+426: Short balonê
+451: Saia de balé
+652: Camisa Ensino Médio
+658: Jaleco Curso Técnico
+686: Blusa Seice Dance
+705: Farda Banda
+707: Bermuda Tactel
+708: Blusa Educação Física
+709: Blusa Polo
+710: Blusa Regata
+719: Camisa futsal
+720: Short futsal
+730: Passeio fazendinha
+731: Passeio Arca de Noah
+706: Taxa administrativa
+
+
+
+// const parametrosInsertPlano = {
+//   nCodigoCliente: codigoCliente,
+//   sToken: token,
+//   dDataPrimeiroVencimento: dados.dDataPrimeiroVencimento,
+//   nNumeroParcelas: dados.nNumeroParcelas,
+//   nValorParcelas: dados.nValorParcelas,
+//   nFormaCobrancaID: dados.nFormaCobrancaID,
+//   nCategoriaID: dados.nCategoriaID,
+//   nAlunoID: dados.nAlunoID,
+//   nClienteID: dados.nClienteID,
+//   nTipoPlano: dados.nTipoPlano,
+//   nContratoID: dados.nContratoID,
+//   nContratoAulaLivreID: dados.nContratoAulaLivreID,
+//   nBolsaID: dados.nBolsaID,
+//   sObservacao: dados.sObservacao,
+//   nContaID: dados.nContaID,
+// };
+
+
+//   await axios.post(
+//     url + "/InsertPlano",
+//     `
+//     <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://api.sponteeducacional.net.br/">
+//       <soap:Header/>
+//       <soap:Body>
+//         <tns:InsertPlano>
+//           <tns:nCodigoCliente>${process.env.CODIGO_CLIENTE}</tns:nCodigoCliente>
+//           <tns:sToken>${process.env.TOKEN}</tns:sToken>
+//           <tns:AlunoID>${AlunoID}</tns:AlunoID>
+
+//         </tns:InsertPlano>
+//       </soap:Body>
+//   </soap:Envelope>
+// `,
+//     {
+//       headers: {
+//         "Content-Type": "text/xml",
+//       },
+//     }
+//   );
