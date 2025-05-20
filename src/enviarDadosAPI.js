@@ -1,5 +1,6 @@
 const axios = require("axios");
 const { parseString } = require("xml2js");
+const { enviarDependencia } = require("./dependencias");
 
 require("dotenv").config();
 
@@ -89,6 +90,7 @@ async function parseXML(xmlData) {
 async function enviarParaAPI(dados = [], mudarProgresso = () => {}) {
   console.log(dados);
   const resultados = [];
+  const dependencias = [];
   const alunosCache = {};
   const quantidadeDeAlunos = dados.length - 1;
   mudarProgresso(0, quantidadeDeAlunos);
@@ -120,6 +122,24 @@ async function enviarParaAPI(dados = [], mudarProgresso = () => {}) {
     try {
       if (nomeAluno === "Nome do Aluno") {
         // Ignorar o cabeçalho do array
+        continue;
+      }
+
+      console.log(`Processando aluno: ${nomeAluno}`);
+
+      if (
+        descricaoCobranca.toLowerCase().includes("dependência-01") ||
+        descricaoCobranca.toLowerCase().includes("dependência-02") ||
+        descricaoCobranca.toLowerCase().includes("dependência-03")
+      ) {
+        console.log(`Produto identificado como dependência: ${descricaoCobranca}`);
+        dependencias.push([
+          nomeAluno,
+          descricaoCobranca,
+          dataVencimentoOriginal,
+          valorBrutoCobranca,
+          getIdByCategoryName(descricaoCobranca),
+        ]);
         continue;
       }
 
@@ -202,6 +222,11 @@ async function enviarParaAPI(dados = [], mudarProgresso = () => {}) {
       `%c${alunosprocessados} de ${quantidadeDeAlunos} alunos processados`,
       "color:white;background-color:black;"
     );
+  }
+
+  if (dependencias.length > 0) {
+    console.log("Iniciando o envio de dependências...");
+    await enviarDependencia(dependencias, mudarProgresso);
   }
 
   return resultados;
