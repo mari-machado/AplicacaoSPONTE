@@ -13,11 +13,11 @@ function lerXLSX(caminhoArquivo) {
   return jsonData;
 }
 
-async function tratarDados(dados, posicoesParaLer) {
+async function tratarDados(dados, posicoesParaLer, periodoConfig) {
   const dadosTratados = [];
   let tiroualgo = false;
   let contador = 0;
-  const ANO_ATUAL = process.env.ANO_ATUAL || "2023";
+  const ANO_ATUAL = periodoConfig.ano || process.env.ANO_ATUAL || "2023";
   log(ANO_ATUAL);
 
   for (const linha of dados) {
@@ -29,126 +29,137 @@ async function tratarDados(dados, posicoesParaLer) {
         linhaTratada.push(linha[posicao]);
       } else {
         if (posicao === 2) {
-          if (
-            linha[posicao]
-              .toString()
-              .toLowerCase()
-              .includes("Anna Karolina da Silva Lima".toLowerCase()) ||
-            linha[posicao]
-              .toString()
-              .toLowerCase()
-              .includes("Clara Meireles Pereira".toLowerCase()) ||
-            linha[posicao]
-              .toString()
-              .toLowerCase()
-              .includes("Guilherme da Silva Nascimento".toLowerCase()) ||
-            linha[posicao]
-              .toString()
-              .toLowerCase()
-              .includes("Kaylane da Silva Alves".toLowerCase()) ||
-            linha[posicao]
-              .toString()
-              .toLowerCase()
-              .includes("Kayo da Silva Alves".toLowerCase())
-          ) {
-            adicionarLinha = false;
-            tiroualgo = true;
-            break;
+          linhaTratada.push(linha[posicao]);
+        } else {
+          if (posicao === 2) {
+            if (
+              linha[posicao]
+                .toString()
+                .toLowerCase()
+                .includes("Anna Karolina da Silva Lima".toLowerCase()) ||
+              linha[posicao]
+                .toString()
+                .toLowerCase()
+                .includes("Clara Meireles Pereira".toLowerCase()) ||
+              linha[posicao]
+                .toString()
+                .toLowerCase()
+                .includes("Guilherme da Silva Nascimento".toLowerCase()) ||
+              linha[posicao]
+                .toString()
+                .toLowerCase()
+                .includes("Kaylane da Silva Alves".toLowerCase()) ||
+              linha[posicao]
+                .toString()
+                .toLowerCase()
+                .includes("Kayo da Silva Alves".toLowerCase())
+            ) {
+              adicionarLinha = false;
+              tiroualgo = true;
+              break;
+            }
+
+            if (
+              linha[posicao]
+                .toString()
+                .toLowerCase()
+                .includes("Allicia França Mello".toLowerCase())
+            ) {
+              linha[posicao] = "Allicia de França Mello";
+            }
+            if (
+              linha[posicao]
+                .toString()
+                .toLowerCase()
+                .includes("Graziella D' Emilio Teixeira".toLowerCase())
+            ) {
+              linha[posicao] = "Graziella D´ Emilio Teixeira";
+            }
+            if (
+              linha[posicao]
+                .toString()
+                .toLowerCase()
+                .includes("Joseph Arthur Fernandes da Silva".toLowerCase())
+            ) {
+              linha[posicao] = "Joseph Arthur Azevedo da Silva";
+            }
+            if (
+              linha[posicao]
+                .toString()
+                .toLowerCase()
+                .includes("Manoel Junior Alves Leita".toLowerCase())
+            ) {
+              linha[posicao] = "Manoel Junior Alves Leite";
+            }
           }
 
-          if (
-            linha[posicao]
-              .toString()
-              .toLowerCase()
-              .includes("Allicia França Mello".toLowerCase())
-          ) {
-            linha[posicao] = "Allicia de França Mello";
+          if (posicao === 5) {
+            if (linha[posicao].toString().toLowerCase().includes("inativo")) {
+              adicionarLinha = false;
+              tiroualgo = true;
+              break;
+            }
           }
-          if (
-            linha[posicao]
-              .toString()
-              .toLowerCase()
-              .includes("Graziella D' Emilio Teixeira".toLowerCase())
-          ) {
-            linha[posicao] = "Graziella D´ Emilio Teixeira";
+
+          if (posicao === 6) {
+            if (linha[posicao].toString().toLowerCase().includes("entrada")) {
+              adicionarLinha = false;
+              tiroualgo = true;
+              break;
+            }
           }
-          if (
-            linha[posicao]
-              .toString()
-              .toLowerCase()
-              .includes("Joseph Arthur Fernandes da Silva".toLowerCase())
-          ) {
-            linha[posicao] = "Joseph Arthur Azevedo da Silva";
+
+          if (posicao === 13) {
+            const anoLinha = linha[posicao].toString();
+            if (anoLinha !== periodoConfig.ano) {
+              adicionarLinha = false;
+              tiroualgo = true;
+              break;
+            }
           }
-          if (
-            linha[posicao]
-              .toString()
-              .toLowerCase()
-              .includes("Manoel Junior Alves Leita".toLowerCase())
-          ) {
-            linha[posicao] = "Manoel Junior Alves Leite";
+
+          if (posicao === 17) {
+            if (Number(linha[posicao]) <= 0 || Number(linha[posicao]) > 700) {
+              adicionarLinha = false;
+              tiroualgo = true;
+              break;
+            }
           }
+
+          if (posicao === 11) {
+            const mes = Number(String(linha[posicao]).substring(3, 5));
+            const data = new Date(ANO_ATUAL, mes - 1);
+            const ultimoDiaMes = format(endOfMonth(data), "dd/MM/yyyy");
+            console.table([linha[posicao], mes, data, ultimoDiaMes]);
+            linha[posicao] = ultimoDiaMes;
+          }
+
+          if (posicao === 18) {
+            if (linha[posicao].toLowerCase() !== "paga") {
+              adicionarLinha = false;
+              tiroualgo = true;
+              break;
+            }
+          }
+
+          if (posicao === 12) {
+            const mes = Number(linha[posicao].toString().substring(0, 2));
+            
+            if (periodoConfig.tipo === 'mes') {
+              if (mes !== Number(periodoConfig.mes)) {
+                adicionarLinha = false;
+              }
+            } else if (periodoConfig.tipo === 'periodo') {
+              const mesInicio = Number(periodoConfig.mesInicio);
+              const mesFim = Number(periodoConfig.mesFim);
+              if (mes < mesInicio || mes > mesFim) {
+                adicionarLinha = false;
+              }
+            }
+          }
+
+          linhaTratada.push(linha[posicao]);
         }
-
-        if (posicao === 5) {
-          if (
-            linha[posicao].toString().toLowerCase().includes("depend") ||
-            linha[posicao].toString().toLowerCase().includes("inativo")
-          ) {
-            adicionarLinha = false;
-            tiroualgo = true;
-            break;
-          }
-        }
-
-        if (posicao === 6) {
-          if (linha[posicao].toString().toLowerCase().includes("entrada")) {
-            adicionarLinha = false;
-            tiroualgo = true;
-            break;
-          }
-        }
-
-        if (posicao === 13) {
-          if (linha[posicao].toString().toLowerCase() !== ANO_ATUAL) {
-            adicionarLinha = false;
-            tiroualgo = true;
-            break;
-          }
-        }
-
-        if (posicao === 17) {
-          if (Number(linha[posicao]) <= 0 || Number(linha[posicao]) > 700) {
-            adicionarLinha = false;
-            tiroualgo = true;
-            break;
-          }
-        }
-
-        if (posicao === 11) {
-          const mes = Number(String(linha[posicao]).substring(3, 5));
-          const data = new Date(ANO_ATUAL, mes - 1);
-          const ultimoDiaMes = format(endOfMonth(data), "dd/MM/yyyy");
-          console.table([linha[posicao], mes, data, ultimoDiaMes]);
-          linha[posicao] = ultimoDiaMes;
-        }
-
-        if (posicao === 18) {
-          if (linha[posicao].toLowerCase() !== "paga") {
-            adicionarLinha = false;
-            tiroualgo = true;
-            break;
-          }
-        }
-
-        if (posicao === 12) {
-          const mes = Number(linha[posicao].toString().substring(0, 2));
-          if (mes < (process.env.MES_ATUAL || new Date().getMonth())) {
-            adicionarLinha = false;
-          }
-        }
-
-        linhaTratada.push(linha[posicao]);
       }
     }
 
@@ -201,22 +212,21 @@ function jsonParaXLSX(dados, nomeArquivo) {
   console.log("Arquivo XLSX salvo com sucesso:", filePath);
 }
 
-async function fixData(filePath, fileName) {
-  const caminhoArquivo = filePath; //onde a planilha está
-  const posicoesParaLer = [2, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19]; //posições a serem tratadas na planilha
-
-  const outputArquivo = fileName; //o nome da planilha tratada
+async function fixData(filePath, fileName, periodoConfig) {
+  const caminhoArquivo = filePath;
+  const posicoesParaLer = [2, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19];
+  const outputArquivo = fileName;
 
   const dadosFinais = await tratarDados(
     lerXLSX(caminhoArquivo),
-    posicoesParaLer
+    posicoesParaLer,
+    periodoConfig
   );
 
   let quantidadeLinhasDesejada = parseInt(process.env.QTDLINHAS) || Infinity;
   quantidadeLinhasDesejada++;
   const dadosTratadosLimitados = dadosFinais.slice(0, quantidadeLinhasDesejada);
 
-  // salvarJSON(dados, outputArquivo);
   jsonParaXLSX(dadosTratadosLimitados, outputArquivo);
   salvarJSON(dadosTratadosLimitados, outputArquivo);
 

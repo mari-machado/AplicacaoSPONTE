@@ -20,9 +20,30 @@ async function mudarProgresso(progressValue, progressMax, log) {
 
 async function enviarPlanilha() {
   const planilhaFile = document.getElementById("planilhaFile");
+  const tipoPeriodo = document.querySelector('input[name="tipo-periodo"]:checked').value;
+  const anoSelecionado = document.getElementById("ano-selecionado").value;
+  
+  let periodoConfig;
+  if (tipoPeriodo === 'mes') {
+    const mesSelecionado = document.getElementById("mes-selecionado").value;
+    periodoConfig = {
+      tipo: 'mes',
+      mes: mesSelecionado,
+      ano: anoSelecionado
+    };
+  } else {
+    const mesInicio = document.getElementById("mes-inicio").value;
+    const mesFim = document.getElementById("mes-fim").value;
+    periodoConfig = {
+      tipo: 'periodo',
+      mesInicio: mesInicio,
+      mesFim: mesFim,
+      ano: anoSelecionado
+    };
+  }
 
   const filePath = planilhaFile.files[0].path;
-  const fileName = "Log-de-Importação";
+  const fileName = `Log-de-Importação-${anoSelecionado}`;
 
   if (filePath === "") {
     alert("Selecione um arquivo");
@@ -31,13 +52,12 @@ async function enviarPlanilha() {
   } else {
     document.body.style.cursor = "wait";
     const overlay = document.querySelector("#overlay");
-    overlay.style.display = "flex"; // Exibe a janela de sobreposição
+    overlay.style.display = "flex";
 
-    // Aguardar um pequeno atraso (100ms) para permitir que a alteração do estilo do cursor seja renderizada
     await new Promise((resolve) => setTimeout(resolve, 100));
 
     const absoluteFilePath = path.resolve(filePath);
-    const dados = await fixData(absoluteFilePath, fileName);
+    const dados = await fixData(absoluteFilePath, fileName, periodoConfig);
     overlay.style.display = "none";
     document.body.style.cursor = "auto";
     await new Promise((resolve) => setTimeout(resolve, 100));

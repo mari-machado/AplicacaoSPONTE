@@ -28,6 +28,73 @@
     <h1>Aplicação SPONTE</h1>
     <p>Leia a documentação <a href="./README.html">aqui</a></p>
 
+    <div class="periodo-selecao">
+      <h2>Selecione o Período</h2>
+      <div class="periodo-opcoes">
+        <div class="ano-selecao">
+          <label for="ano-selecionado">Ano:</label>
+          <select id="ano-selecionado" class="ano-select">
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+          </select>
+        </div>
+        <div class="opcao-mes">
+          <input type="radio" id="opcao-mes" name="tipo-periodo" value="mes" checked>
+          <label for="opcao-mes">Mês Específico</label>
+          <select id="mes-selecionado" class="mes-select">
+            <option value="01">Janeiro</option>
+            <option value="02">Fevereiro</option>
+            <option value="03">Março</option>
+            <option value="04">Abril</option>
+            <option value="05">Maio</option>
+            <option value="06">Junho</option>
+            <option value="07">Julho</option>
+            <option value="08">Agosto</option>
+            <option value="09">Setembro</option>
+            <option value="10">Outubro</option>
+            <option value="11">Novembro</option>
+            <option value="12">Dezembro</option>
+          </select>
+        </div>
+        <div class="opcao-periodo">
+          <input type="radio" id="opcao-periodo" name="tipo-periodo" value="periodo">
+          <label for="opcao-periodo">Período</label>
+          <div class="periodo-inputs">
+            <select id="mes-inicio" class="mes-select">
+              <option value="01">Janeiro</option>
+              <option value="02">Fevereiro</option>
+              <option value="03">Março</option>
+              <option value="04">Abril</option>
+              <option value="05">Maio</option>
+              <option value="06">Junho</option>
+              <option value="07">Julho</option>
+              <option value="08">Agosto</option>
+              <option value="09">Setembro</option>
+              <option value="10">Outubro</option>
+              <option value="11">Novembro</option>
+              <option value="12">Dezembro</option>
+            </select>
+            <span>até</span>
+            <select id="mes-fim" class="mes-select">
+              <option value="01">Janeiro</option>
+              <option value="02">Fevereiro</option>
+              <option value="03">Março</option>
+              <option value="04">Abril</option>
+              <option value="05">Maio</option>
+              <option value="06">Junho</option>
+              <option value="07">Julho</option>
+              <option value="08">Agosto</option>
+              <option value="09">Setembro</option>
+              <option value="10">Outubro</option>
+              <option value="11">Novembro</option>
+              <option value="12">Dezembro</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <form class="form-planilha">
       <label for="planilhaFile">Escolha a planilha: </label>
       <input id="planilhaFile" type="file" class="custom-file-upload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, .xlsx">
