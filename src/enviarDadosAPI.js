@@ -133,12 +133,20 @@ async function enviarParaAPI(dados = [], mudarProgresso = () => {}) {
         descricaoCobranca.toLowerCase().includes("dependência-03")
       ) {
         console.log(`Produto identificado como dependência: ${descricaoCobranca}`);
+        
+        let alunoID = alunosCache[nomeAluno];
+        if (!alunoID) {
+          alunoID = await getAlunoID(nomeAluno);
+          alunosCache[nomeAluno] = alunoID;
+        }
+
         dependencias.push([
           nomeAluno,
           descricaoCobranca,
           dataVencimentoOriginal,
           valorBrutoCobranca,
           getIdByCategoryName(descricaoCobranca),
+          alunoID
         ]);
         continue;
       }
